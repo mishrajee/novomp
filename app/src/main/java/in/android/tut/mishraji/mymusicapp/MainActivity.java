@@ -1,8 +1,11 @@
     package in.android.tut.mishraji.mymusicapp;
 
     import android.content.Context;
+    import android.content.SharedPreferences;
+    import android.content.res.Resources;
     import android.media.MediaPlayer;
     import android.os.Message;
+    import android.preference.PreferenceManager;
     import android.support.annotation.NonNull;
     import android.support.v7.app.ActionBarActivity;
     import android.os.Bundle;
@@ -24,6 +27,7 @@
         Button mPlay, mPause, mFF, mRW;
         MediaPlayer mediaPlayer;
         SeekBar seekBar;
+        private Boolean isPlaying;
 
         private static String TAG = "std";
 
@@ -31,9 +35,21 @@
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
             setContentView(R.layout.activity_main);
 
-            mediaPlayer = MediaPlayer.create(this, R.raw.a);
+            SharedPreferences sp = getSharedPreferences("music-file",Context.MODE_PRIVATE);
+            String fileName = sp.getString("filename_value",null);
+
+            Log.d("std","value of fileName is "+fileName);
+
+            fileName = getIntent().getStringExtra("fileName");
+            Log.d("std","After intent value of fileName is "+fileName);
+
+
+
+            mediaPlayer = MediaPlayer.create(this, this.getResources().getIdentifier(fileName,"raw",this.getPackageName()));
+            Log.d("std","mediaPlayer initialized");
 
             mPlay = (Button) findViewById(R.id.activity_main_play);
             mPause = (Button) findViewById(R.id.activity_main_pause);
@@ -68,6 +84,10 @@
                 }
             });
 
+            mediaPlayer.start();
+            isPlaying = true;
+
+
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
@@ -80,8 +100,21 @@
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(MainActivity.this, "Play is clicked", Toast.LENGTH_SHORT).show();
-                    mediaPlayer.start();
-                    musicHandler.sendEmptyMessage(SEEK_SLEEP);
+                    if(isPlaying){
+                        //Song should pause now
+                        mediaPlayer.pause();
+                        mPlay.setText("Play");
+                        isPlaying=false;
+
+                    }
+                    else{
+                        //Song should Play now
+                        mediaPlayer.start();
+                        mPlay.setText("Pause");
+                        isPlaying=true;
+
+                    }
+
 
                 }
             });
@@ -133,6 +166,8 @@
         @Override
         protected void onStop() {
             super.onStop();
+            mediaPlayer.pause();
+
             Log.d(TAG,"onStop() is called");
         }
 
@@ -145,6 +180,8 @@
         @Override
         public void onBackPressed() {
             super.onBackPressed();
+            mediaPlayer.pause();
+
             Log.d(TAG,"onBackPressed() is called");
         }
 

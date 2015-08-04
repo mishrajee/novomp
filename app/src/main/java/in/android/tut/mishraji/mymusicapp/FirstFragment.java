@@ -1,14 +1,20 @@
 package in.android.tut.mishraji.mymusicapp;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,22 +31,13 @@ public class FirstFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
-        musicList.add(new Music("dongname2","songartisi","http://www.hindilyrics.net/movie-pic/joshile.jpg"));
+        musicList.add(new Music("badshah","abhijeet","badshah","http://i.imgur.com/Qp1vKMJ.jpg"));
+        musicList.add(new Music("chaccaron","El Mundo","chaccaron","https://upload.wikimedia.org/wikipedia/en/e/ef/Chacarron.jpg"));
 
-        musicList.add(new Music("dongname3","songartisi","https://https://upload.wikimedia.org/wikipedia/en/9/95/Ghayal,_1990_film.jpg"));
+        musicList.add(new Music("hud hud Daband","Sukhwinder Singh","hudhud","http://3.bp.blogspot.com/-U52ugxF6_no/TeCV4DLmEqI/AAAAAAAAAAU/W9DfRwktH6Y/s1600/Dabangg+Poster.jpg"));
 
-        musicList.add(new Music("dongname4","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
-        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
-        musicList.add(new Music("dongname1","songartisi","https://https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
-        musicList.add(new Music("dongname1","songartisi","https://https://upload.wikimedia.org/wikipedia/en/9/95/Ghayal,_1990_film.jpg"));
-        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
-        musicList.add(new Music("dongname5","songartisi","https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
-        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
-        musicList.add(new Music("dongname1","songartisi","http://www.hindilyrics.net/movie-pic/joshile.jpg"));
-        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
-        musicList.add(new Music("dongname6","songartisi","https://https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
-        musicList.add(new Music("dongname9","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
+        musicList.add(new Music("cheez mast","Udit Narayan","mohra","https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
+
 
 
 
@@ -55,8 +52,30 @@ public class FirstFragment extends Fragment {
 
         ListView listView = (ListView) view.findViewById(R.id.fragment_first_list);
 
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String msg ="The song to be played is at "+ position;
+                Log.d("std",msg);
+
+                SharedPreferences sp = getActivity().getSharedPreferences("music-file",Context.MODE_PRIVATE);
+                String file = musicList.get(position).getFileName();
+                Log.d("std","file to be shared is "+file);
+                sp.edit().putString("filename_value",file);
+
+
+                Intent i = new Intent(getActivity(),MainActivity.class).putExtra("fileName",file);
+                startActivity(i);
+            }
+
+
+        });
+
         musicAdapter = new MusicAdapter(getActivity(),musicList);
         listView.setAdapter(musicAdapter);
+
 
         return view;
 

@@ -92,6 +92,8 @@ public class MusicAdapter extends BaseAdapter {
         viewHolder.artistTextView.setText(music.getArtistName());
         viewHolder.songTextView.setText(music.getSongName());
 
+
+
         return view;
     }
 }

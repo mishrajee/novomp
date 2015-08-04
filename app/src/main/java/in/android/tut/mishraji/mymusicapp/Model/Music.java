@@ -7,11 +7,21 @@ public class Music {
     private String songName;
     private String artistName;
     private String albumName;
+    private String fileName;
 
-    public Music(String songName, String artistName, String albumName) {
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Music(String songName, String artistName, String fileName,String albumName) {
         this.songName = songName;
         this.artistName = artistName;
         this.albumName = albumName;
+        this.fileName= fileName;
     }
 
     public String getSongName() {
