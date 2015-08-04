@@ -25,22 +25,22 @@ public class FirstFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname2","songartisi","songalbum"));
+        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
+        musicList.add(new Music("dongname2","songartisi","http://www.hindilyrics.net/movie-pic/joshile.jpg"));
 
-        musicList.add(new Music("dongname3","songartisi","songalbum"));
+        musicList.add(new Music("dongname3","songartisi","https://https://upload.wikimedia.org/wikipedia/en/9/95/Ghayal,_1990_film.jpg"));
 
-        musicList.add(new Music("dongname4","songartisi","songalbum"));
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname5","songartisi","songalbum"));
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname1","songartisi","songalbum"));
-        musicList.add(new Music("dongname6","songartisi","songalbum"));
-        musicList.add(new Music("dongname9","songartisi","songalbum"));
+        musicList.add(new Music("dongname4","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
+        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
+        musicList.add(new Music("dongname1","songartisi","https://https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
+        musicList.add(new Music("dongname1","songartisi","https://https://upload.wikimedia.org/wikipedia/en/9/95/Ghayal,_1990_film.jpg"));
+        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
+        musicList.add(new Music("dongname5","songartisi","https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
+        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
+        musicList.add(new Music("dongname1","songartisi","http://www.hindilyrics.net/movie-pic/joshile.jpg"));
+        musicList.add(new Music("dongname1","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
+        musicList.add(new Music("dongname6","songartisi","https://https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
+        musicList.add(new Music("dongname9","songartisi","https://upload.wikimedia.org/wikipedia/en/b/be/Khalnayak.jpg"));
 
 
 
