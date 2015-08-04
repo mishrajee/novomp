@@ -26,6 +26,7 @@ public class FirstFragment extends Fragment {
 
     private List<Music> musicList = new ArrayList<>();
     private MusicAdapter musicAdapter;
+    private Music music;
 
 
     @Override
@@ -63,10 +64,9 @@ public class FirstFragment extends Fragment {
                 SharedPreferences sp = getActivity().getSharedPreferences("music-file",Context.MODE_PRIVATE);
                 String file = musicList.get(position).getFileName();
                 Log.d("std","file to be shared is "+file);
-                sp.edit().putString("filename_value",file);
+                sp.edit().putString("filename_value", file);
 
-
-                Intent i = new Intent(getActivity(),MainActivity.class).putExtra("fileName",file);
+                Intent i = new Intent(getActivity(),MainActivity.class).putExtra("musicName",position);
                 startActivity(i);
             }
 

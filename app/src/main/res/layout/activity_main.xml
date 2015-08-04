@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -8,26 +8,21 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-
-    <Button
-        android:id="@+id/activity_main_play"
+    <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Play"
+        android:layout_height="800dp"
+        android:id="@+id/activity_main_image"
+
 
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/activity_main_pause"
-        android:text="Pause"/>
 
-    <Button
-        android:layout_width="wrap_content"
+    <SeekBar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/activity_main_fast"
-        android:text="Fast Forward"
+        android:id="@+id/activity_main_seeked"
+        android:layout_below="@id/activity_main_image"
+        android:layout_alignParentTop="true"
         />
 
     <Button
@@ -35,15 +30,33 @@
         android:layout_height="wrap_content"
         android:id="@+id/activity_main_rewind"
         android:text="Rewind"
+        android:layout_below="@id/activity_main_seeked"
         />
 
-    <SeekBar
-        android:layout_width="match_parent"
+
+    <Button
+        android:id="@+id/activity_main_play"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/activity_main_seeked"
-
+        android:text="Pause"
+        android:layout_toRightOf="@id/activity_main_rewind"
+        android:layout_below="@id/activity_main_seeked"
 
 
         />
 
-</LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_main_fast"
+        android:text="Fast Forward"
+        android:layout_toRightOf="@id/activity_main_play"
+        android:layout_below="@id/activity_main_seeked"
+
+        />
+
+
+
+
+</RelativeLayout>

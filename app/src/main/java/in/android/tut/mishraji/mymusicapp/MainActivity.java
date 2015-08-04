@@ -3,6 +3,7 @@
     import android.content.Context;
     import android.content.SharedPreferences;
     import android.content.res.Resources;
+    import android.media.Image;
     import android.media.MediaPlayer;
     import android.os.Message;
     import android.preference.PreferenceManager;
@@ -15,19 +16,30 @@
     import android.view.MenuItem;
     import android.view.View;
     import android.widget.Button;
+    import android.widget.ImageView;
     import android.widget.SeekBar;
     import android.widget.Toast;
 
     import android.os.Handler;
 
+    import com.squareup.picasso.Picasso;
+
+    import java.util.ArrayList;
+    import java.util.List;
     import java.util.logging.LogRecord;
+
+    import in.android.tut.mishraji.mymusicapp.Model.Music;
 
 
     public class MainActivity extends ActionBarActivity {
-        Button mPlay, mPause, mFF, mRW;
+        Button mPlay, mFF, mRW;
         MediaPlayer mediaPlayer;
         SeekBar seekBar;
         private Boolean isPlaying;
+        private List<Music> musicList = new ArrayList<>();
+        private int position;
+        private ImageView imageView;
+
 
         private static String TAG = "std";
 
@@ -38,21 +50,30 @@
 
             setContentView(R.layout.activity_main);
 
+            initializeMusicList();
+
+            imageView = (ImageView) findViewById(R.id.activity_main_image);
+
             SharedPreferences sp = getSharedPreferences("music-file",Context.MODE_PRIVATE);
             String fileName = sp.getString("filename_value",null);
 
             Log.d("std","value of fileName is "+fileName);
 
-            fileName = getIntent().getStringExtra("fileName");
-            Log.d("std","After intent value of fileName is "+fileName);
+            position = getIntent().getIntExtra("musicName", 0);
+            Log.d("std","After intent value of fileName is "+musicList.get(position).getFileName());
+            fileName=musicList.get(position).getFileName();
 
 
+            Picasso
+                    .with(this)
+                    .load(musicList.get(position).getAlbumName())
+                    .error(R.drawable.ic_launcher)
+                    .into(imageView);
 
             mediaPlayer = MediaPlayer.create(this, this.getResources().getIdentifier(fileName,"raw",this.getPackageName()));
             Log.d("std","mediaPlayer initialized");
 
             mPlay = (Button) findViewById(R.id.activity_main_play);
-            mPause = (Button) findViewById(R.id.activity_main_pause);
             mFF = (Button) findViewById(R.id.activity_main_fast);
             mRW = (Button) findViewById(R.id.activity_main_rewind);
             seekBar = (SeekBar) findViewById(R.id.activity_main_seeked);
@@ -119,13 +140,6 @@
                 }
             });
 
-            mPause.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(MainActivity.this, "Pause is clicked", Toast.LENGTH_SHORT).show();
-                    mediaPlayer.pause();
-                }
-            });
 
             mFF.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -141,6 +155,16 @@
                 }
             });
 
+
+        }
+
+        private void initializeMusicList() {
+            musicList.add(new Music("badshah","abhijeet","badshah","http://i.imgur.com/Qp1vKMJ.jpg"));
+            musicList.add(new Music("chaccaron","El Mundo","chaccaron","https://upload.wikimedia.org/wikipedia/en/e/ef/Chacarron.jpg"));
+
+            musicList.add(new Music("hud hud Daband","Sukhwinder Singh","hudhud","http://3.bp.blogspot.com/-U52ugxF6_no/TeCV4DLmEqI/AAAAAAAAAAU/W9DfRwktH6Y/s1600/Dabangg+Poster.jpg"));
+
+            musicList.add(new Music("cheez mast","Udit Narayan","mohra","https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
 
         }
 
@@ -167,6 +191,7 @@
         protected void onStop() {
             super.onStop();
             mediaPlayer.pause();
+            isPlaying=false;
 
             Log.d(TAG,"onStop() is called");
         }
@@ -181,6 +206,8 @@
         public void onBackPressed() {
             super.onBackPressed();
             mediaPlayer.pause();
+            isPlaying=false;
+
 
             Log.d(TAG,"onBackPressed() is called");
         }
