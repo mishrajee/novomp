@@ -50,6 +50,9 @@ public class MusicService extends Service {
 
         if(method.equals(KEY_START)){
            music = (Music)intent.getSerializableExtra("musicName");
+           if(mediaPlayer!=null){
+               mediaPlayer.stop();
+           }
            mediaPlayer = MediaPlayer.create(this, this.getResources().getIdentifier(music.getFileName(),"raw",this.getPackageName()));
 
             Log.d("music","Song name is "+music.getSongName());

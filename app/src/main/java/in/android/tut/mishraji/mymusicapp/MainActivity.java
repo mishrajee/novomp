@@ -171,15 +171,7 @@
             Log.v(TAG,"onDestroy() is called");
         }
 
-        @Override
-        public void onBackPressed() {
-            super.onBackPressed();
-            MusicService.pauseSong();
-            isPlaying=false;
 
-
-            Log.d(TAG,"onBackPressed() is called");
-        }
 
 
 

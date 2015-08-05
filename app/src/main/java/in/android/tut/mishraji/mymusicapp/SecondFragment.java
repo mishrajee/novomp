@@ -12,11 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+import in.android.tut.mishraji.mymusicapp.Events.MusicStatus;
 import in.android.tut.mishraji.mymusicapp.Model.Music;
 import in.android.tut.mishraji.mymusicapp.services.MusicService;
 
@@ -28,17 +32,66 @@ public class SecondFragment extends Fragment {
     private GridView gridView;
     private MusicAdapter musicAdapter;
     private Music music;
+    private Button musicBarButton;
+    private TextView musicBarSongName;
+    private Boolean isPLaying;
+
+    ViewGroup musicBar;
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EventBus.getDefault().register(this);
+        isPLaying = false;
+
         musicList.add(new Music("badshah","abhijeet","badshah","http://i.imgur.com/Qp1vKMJ.jpg"));
         musicList.add(new Music("chaccaron","El Mundo","chaccaron","https://upload.wikimedia.org/wikipedia/en/e/ef/Chacarron.jpg"));
 
         musicList.add(new Music("hud hud Daband","Sukhwinder Singh","hudhud","http://3.bp.blogspot.com/-U52ugxF6_no/TeCV4DLmEqI/AAAAAAAAAAU/W9DfRwktH6Y/s1600/Dabangg+Poster.jpg"));
 
         musicList.add(new Music("cheez mast","Udit Narayan","mohra","https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
+
+        musicBarButton = (Button) getActivity().findViewById(R.id.music_bar_button);
+
+        musicBarSongName = (TextView) getActivity().findViewById(R.id.music_bar_song);
+
+
+        musicBarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isPLaying){
+                    //song needs to pause
+                    MusicService.pauseSong();
+
+                }
+                else{
+                    //song needs to play
+                    MusicService.playSong();
+                }
+
+            }
+        });
+
+
+
+        musicBarSongName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),MainActivity.class).putExtra("music",music);
+                startActivity(intent);
+            }
+        });
+
+        musicBar = (ViewGroup) getActivity().findViewById(R.id.music_bar);
+        musicBar.getLayoutParams().height = 0;
+
+
+
+
+
     }
 
     @Override
@@ -57,6 +110,7 @@ public class SecondFragment extends Fragment {
                 String msg ="The song to be played is at "+ position;
                 Log.d("std",msg);
 
+                music = musicList.get(position);
                 String file = musicList.get(position).getFileName();
                 Log.d("std","In grid file to be shared is "+file);
 
@@ -69,12 +123,38 @@ public class SecondFragment extends Fragment {
 
                 getActivity().startService(i);
 
-                startActivity(intent);
+                musicBar.getLayoutParams().height=200;
+                musicBarSongName.setText(music.getSongName());
+                musicBar.requestLayout();
+
+
+
+                //startActivity(intent);
 
             }
         });
 
         return view;
+
+    }
+
+
+    public void onEvent(MusicStatus musicStatus){
+        if(musicStatus.getIsPlaying()){
+            musicBarButton.setText("Pause");
+            isPLaying=true;
+
+        }
+        else{
+            musicBarButton.setText("Play");
+            isPLaying=false;
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
 
     }
 }

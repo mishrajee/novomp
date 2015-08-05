@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SlidingPaneLayout;
 
 import com.flurry.android.FlurryAgent;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 /**
  * Created by abhinava on 4/8/15.
@@ -18,7 +19,7 @@ public class ListOfMusicActivity extends FragmentActivity {
     private ViewPager viewPager;
     private final int NO_PAGES =2;
     private MusicListFragmentStartPagerAdaptor musicListFragmentStartPagerAdaptor;
-    private SlidingPaneLayout mLayout;
+    private SlidingUpPanelLayout mLayout;
 
     @Override
     protected void onStart() {
@@ -42,6 +43,8 @@ public class ListOfMusicActivity extends FragmentActivity {
         musicListFragmentStartPagerAdaptor = new MusicListFragmentStartPagerAdaptor(getSupportFragmentManager());
 
         viewPager.setAdapter(musicListFragmentStartPagerAdaptor);
+
+
 
 
 
