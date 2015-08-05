@@ -28,6 +28,8 @@
     import java.util.List;
     import java.util.logging.LogRecord;
 
+    import de.greenrobot.event.EventBus;
+    import in.android.tut.mishraji.mymusicapp.Events.MusicCompletedEvent;
     import in.android.tut.mishraji.mymusicapp.Model.Music;
     import in.android.tut.mishraji.mymusicapp.services.MusicService;
 
@@ -50,6 +52,8 @@
             super.onCreate(savedInstanceState);
 
             setContentView(R.layout.activity_main);
+
+            EventBus.getDefault().register(this);
 
             initializeMusicList();
 
@@ -196,6 +200,7 @@
         @Override
         protected void onStop() {
             super.onStop();
+            EventBus.getDefault().unregister(this);
             MusicService.pauseSong();
             isPlaying=false;
 
@@ -258,6 +263,11 @@
         int SEEK_SLEEP = 11;
 
 
+        public void onEvent(MusicCompletedEvent musicCompletedEvent){
+            seekBar.setProgress(0);
+            isPlaying=false;
+            mPlay.setText("Play");
+        }
 
         class MusicHandler extends Handler {
 
