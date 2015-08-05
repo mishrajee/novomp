@@ -6,17 +6,19 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SlidingPaneLayout;
 
 import com.flurry.android.FlurryAgent;
 
 /**
  * Created by abhinava on 4/8/15.
  */
-public class ListOfMusicActivity extends FragmentActivity{
+public class ListOfMusicActivity extends FragmentActivity {
 
     private ViewPager viewPager;
     private final int NO_PAGES =2;
     private MusicListFragmentStartPagerAdaptor musicListFragmentStartPagerAdaptor;
+    private SlidingPaneLayout mLayout;
 
     @Override
     protected void onStart() {

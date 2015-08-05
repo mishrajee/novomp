@@ -8,6 +8,7 @@ import android.util.Log;
 
 import de.greenrobot.event.EventBus;
 import in.android.tut.mishraji.mymusicapp.Events.MusicCompletedEvent;
+import in.android.tut.mishraji.mymusicapp.Events.MusicStatus;
 import in.android.tut.mishraji.mymusicapp.Model.Music;
 
 /**
@@ -40,11 +41,12 @@ public class MusicService extends Service {
 
 
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("std", "service onStartCommand()");
+
         String method = intent.getStringExtra(KEY_METHOD);
+        Log.d("std","reached checkpoint 1");
 
         if(method.equals(KEY_START)){
            music = (Music)intent.getSerializableExtra("musicName");
@@ -95,19 +97,27 @@ public class MusicService extends Service {
     }
 
     public static void fwSong() {
+
         mediaPlayer.seekTo(mediaPlayer.getCurrentPosition()+2000);
     }
 
     public static void stopSong() {
+
         mediaPlayer.stop();
+        EventBus.getDefault().post(new MusicStatus(false));
+        EventBus.getDefault().post(new MusicCompletedEvent("random","value"));
+
     }
 
     public static void pauseSong() {
         mediaPlayer.pause();
+        EventBus.getDefault().post(new MusicStatus(false));
     }
 
     public static void playSong() {
+
         mediaPlayer.start();
+        EventBus.getDefault().post(new MusicStatus(true));
     }
 
 
