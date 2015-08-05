@@ -36,7 +36,7 @@
 
     public class MainActivity extends ActionBarActivity {
         Button mPlay, mFF, mRW;
-        MediaPlayer mediaPlayer;
+        //MediaPlayer mediaPlayer;
         SeekBar seekBar;
         private Boolean isPlaying;
         private List<Music> musicList = new ArrayList<>();
