@@ -1,9 +1,11 @@
 package in.android.tut.mishraji.mymusicapp.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by abhinava on 4/8/15.
  */
-public class Music {
+public class Music implements Serializable{
     private String songName;
     private String artistName;
     private String albumName;

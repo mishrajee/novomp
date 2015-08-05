@@ -22,6 +22,8 @@
 
         </activity>
 
+        <service android:name=".services.MusicService"/>
+
 
 
     </application>

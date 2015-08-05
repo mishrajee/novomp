@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.android.tut.mishraji.mymusicapp.Model.Music;
+import in.android.tut.mishraji.mymusicapp.services.MusicService;
 
 public class FirstFragment extends Fragment {
 
@@ -66,8 +67,15 @@ public class FirstFragment extends Fragment {
                 Log.d("std","file to be shared is "+file);
                 sp.edit().putString("filename_value", file);
 
-                Intent i = new Intent(getActivity(),MainActivity.class).putExtra("musicName",position);
-                startActivity(i);
+                Intent intent = new Intent(getActivity(),MainActivity.class).putExtra("music",musicList.get(position));
+
+                Intent i = new Intent(getActivity(),MusicService.class);
+                i.putExtra(MusicService.KEY_METHOD,MusicService.KEY_START);
+                i.putExtra("musicName",musicList.get(position));
+
+                getActivity().startService(i);
+
+                startActivity(intent);
             }
 
 

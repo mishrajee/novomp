@@ -29,6 +29,7 @@
     import java.util.logging.LogRecord;
 
     import in.android.tut.mishraji.mymusicapp.Model.Music;
+    import in.android.tut.mishraji.mymusicapp.services.MusicService;
 
 
     public class MainActivity extends ActionBarActivity {
@@ -39,7 +40,7 @@
         private List<Music> musicList = new ArrayList<>();
         private int position;
         private ImageView imageView;
-
+        private Music music;
 
         private static String TAG = "std";
 
@@ -59,19 +60,21 @@
 
             Log.d("std","value of fileName is "+fileName);
 
-            position = getIntent().getIntExtra("musicName", 0);
+           music=(Music) getIntent().getSerializableExtra("music");
+           // position = getIntent().getIntExtra("musicName", 0);
             Log.d("std","After intent value of fileName is "+musicList.get(position).getFileName());
-            fileName=musicList.get(position).getFileName();
+
+            fileName=music.getFileName();
 
 
             Picasso
                     .with(this)
-                    .load(musicList.get(position).getAlbumName())
+                    .load(music.getAlbumName())
                     .error(R.drawable.ic_launcher)
                     .into(imageView);
 
-            mediaPlayer = MediaPlayer.create(this, this.getResources().getIdentifier(fileName,"raw",this.getPackageName()));
-            Log.d("std","mediaPlayer initialized");
+            //mediaPlayer = MediaPlayer.create(this, this.getResources().getIdentifier(fileName,"raw",this.getPackageName()));
+            //Log.d("std","mediaPlayer initialized");
 
             mPlay = (Button) findViewById(R.id.activity_main_play);
             mFF = (Button) findViewById(R.id.activity_main_fast);
@@ -80,7 +83,9 @@
 
             final MusicHandler musicHandler = new MusicHandler();
 
-            seekBar.setMax(mediaPlayer.getDuration());
+            seekBar.setMax(MusicService.getDuration());
+            musicHandler.sendEmptyMessage(SEEK_SLEEP);
+
             seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -90,7 +95,7 @@
 
                         Log.d("value", "value of getProgress and getMax" + seekBar.getProgress() + " " + seekBar.getMax());
 
-                        mediaPlayer.seekTo(progress);
+                        MusicService.seekTo(progress);
                     }
                 }
 
@@ -105,17 +110,18 @@
                 }
             });
 
-            mediaPlayer.start();
+            //mediaPlayer.start();
             isPlaying = true;
 
 
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            /*mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
                     Toast.makeText(MainActivity.this, "Song completed", Toast.LENGTH_SHORT).show();
 
                 }
             });
+            */
 
             mPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,14 +129,14 @@
                     Toast.makeText(MainActivity.this, "Play is clicked", Toast.LENGTH_SHORT).show();
                     if(isPlaying){
                         //Song should pause now
-                        mediaPlayer.pause();
+                        MusicService.pauseSong();
                         mPlay.setText("Play");
                         isPlaying=false;
 
                     }
                     else{
                         //Song should Play now
-                        mediaPlayer.start();
+                        MusicService.playSong();
                         mPlay.setText("Pause");
                         isPlaying=true;
 
@@ -144,15 +150,15 @@
             mFF.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 1000);
-                }
+                    MusicService.fwSong();
+                    }
             });
 
             mRW.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 2000);
-                }
+                    MusicService.rwSong();
+                    }
             });
 
 
@@ -190,7 +196,7 @@
         @Override
         protected void onStop() {
             super.onStop();
-            mediaPlayer.pause();
+            MusicService.pauseSong();
             isPlaying=false;
 
             Log.d(TAG,"onStop() is called");
@@ -205,7 +211,7 @@
         @Override
         public void onBackPressed() {
             super.onBackPressed();
-            mediaPlayer.pause();
+            MusicService.pauseSong();
             isPlaying=false;
 
 
@@ -258,17 +264,12 @@
             @Override
             public void handleMessage(Message msg) {
                 if (msg.what == SEEK_SLEEP) {
-                    if (mediaPlayer != null) {
-                        if (mediaPlayer.isPlaying()) {
-                            seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                            sendEmptyMessageDelayed(SEEK_SLEEP,200);
 
-                        }
-                    }
+                    seekBar.setProgress(MusicService.getCurrentPosition());
+                    sendEmptyMessageDelayed(SEEK_SLEEP, 200);
+
                 }
-
             }
-
         }
 
     }

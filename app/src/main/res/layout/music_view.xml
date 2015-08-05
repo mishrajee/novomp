@@ -17,17 +17,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginLeft="10dp"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/musicview_songName"
+            android:textSize="30dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/musicview_artistName">
+            android:id="@+id/musicview_artistName"
+            android:textSize="20dp"
+            >
 
             </TextView>
     ></LinearLayout>
