@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "in.android.tut.mishraji.mymusicapp"
-        minSdkVersion 10
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"

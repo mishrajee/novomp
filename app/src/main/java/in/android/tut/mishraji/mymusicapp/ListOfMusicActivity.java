@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.flurry.android.FlurryAgent;
+
 /**
  * Created by abhinava on 4/8/15.
  */
@@ -15,6 +17,18 @@ public class ListOfMusicActivity extends FragmentActivity{
     private ViewPager viewPager;
     private final int NO_PAGES =2;
     private MusicListFragmentStartPagerAdaptor musicListFragmentStartPagerAdaptor;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FlurryAgent.onStartSession(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FlurryAgent.onEndSession(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +40,7 @@ public class ListOfMusicActivity extends FragmentActivity{
         musicListFragmentStartPagerAdaptor = new MusicListFragmentStartPagerAdaptor(getSupportFragmentManager());
 
         viewPager.setAdapter(musicListFragmentStartPagerAdaptor);
+
 
 
     }

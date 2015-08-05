@@ -20,8 +20,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.flurry.android.FlurryAgent;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import in.android.tut.mishraji.mymusicapp.Model.Music;
 import in.android.tut.mishraji.mymusicapp.Provider.MusicDBHelper;
@@ -85,6 +89,13 @@ public class FirstFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String msg ="The song to be played is at "+ position;
                 Log.d("std",msg);
+                Map<String, String> param = new HashMap<String, String>();
+                FlurryAgent.setLogLevel(Log.VERBOSE);
+
+                param.put("position",String.valueOf(position));
+
+                FlurryAgent.logEvent("Song_Clicked",param);
+
 
                 SharedPreferences sp = getActivity().getSharedPreferences("music-file",Context.MODE_PRIVATE);
                 String file = musicList.get(position).getFileName();
