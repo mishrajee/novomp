@@ -1,9 +1,13 @@
 package in.android.tut.mishraji.mymusicapp;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -20,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.android.tut.mishraji.mymusicapp.Model.Music;
+import in.android.tut.mishraji.mymusicapp.Provider.MusicDBHelper;
 import in.android.tut.mishraji.mymusicapp.services.MusicService;
 
 public class FirstFragment extends Fragment {
@@ -29,6 +34,8 @@ public class FirstFragment extends Fragment {
     private MusicAdapter musicAdapter;
     private Music music;
 
+    private MusicDBHelper musicDBHelper;
+    private SQLiteDatabase db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,24 @@ public class FirstFragment extends Fragment {
 
         musicList.add(new Music("cheez mast","Udit Narayan","mohra","https://upload.wikimedia.org/wikipedia/en/e/ed/Mohra.jpg"));
 
+        musicDBHelper = new MusicDBHelper(getActivity());
+        db = musicDBHelper.getWritableDatabase();
 
+        ContentValues cv = new ContentValues();
+        cv.put(MusicDBHelper.MUSIC_COLOUMN.ALBUM_URL,"http://i.imgur.com/Qp1vKMJ.jpg");
+        cv.put(MusicDBHelper.MUSIC_COLOUMN.ARTIST_NAME,"abhijeet");
+        cv.put(MusicDBHelper.MUSIC_COLOUMN.SONG,"badshah");
+        cv.put(MusicDBHelper.MUSIC_COLOUMN.FILE,"badshah");
+
+        db.insert(MusicDBHelper.TABLE.MUSIC,null,cv);
+
+        Cursor cursor = db.rawQuery("select * from "+MusicDBHelper.TABLE.MUSIC,null);
+        if(cursor.moveToFirst()){
+            do{
+                Log.d("db","Value from db is "+cursor.getString(0));
+
+            }while(cursor.moveToNext());
+        }
 
 
     }
