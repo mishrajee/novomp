@@ -30,7 +30,7 @@ import in.android.tut.mishraji.mymusicapp.services.MusicService;
 public class SecondFragment extends Fragment {
     private List<Music> musicList = new ArrayList<>();
     private GridView gridView;
-    private MusicAdapter musicAdapter;
+    private GridMusicAdapter musicAdapter;
     private Music music;
     private Button musicBarButton;
     private TextView musicBarSongName;
@@ -101,7 +101,7 @@ public class SecondFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_viewpager_secondfragment,container,false);
 
         gridView = (GridView) view.findViewById(R.id.fragment_second_grid);
-        musicAdapter = new MusicAdapter(getActivity(),musicList);
+        musicAdapter = new GridMusicAdapter(getActivity(),musicList);
         gridView.setAdapter(musicAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

@@ -35,9 +35,16 @@ import java.util.Map;
 
 import de.greenrobot.event.EventBus;
 import in.android.tut.mishraji.mymusicapp.Events.MusicStatus;
+import in.android.tut.mishraji.mymusicapp.Model.Collection1;
 import in.android.tut.mishraji.mymusicapp.Model.Music;
+import in.android.tut.mishraji.mymusicapp.Model.MusicApiResponseClass;
+import in.android.tut.mishraji.mymusicapp.Model.Results;
+import in.android.tut.mishraji.mymusicapp.Networking.MusicAPI;
 import in.android.tut.mishraji.mymusicapp.Provider.MusicDBHelper;
 import in.android.tut.mishraji.mymusicapp.services.MusicService;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class FirstFragment extends Fragment {
 
@@ -51,7 +58,10 @@ public class FirstFragment extends Fragment {
     private Button musicBarButton;
     private TextView musicBarSongName;
     private Boolean isPLaying;
+    private List<Collection1> collection = new ArrayList<>();
 
+    ListView listView;
+    MusicAPI.MusicInterface musicInterface;
     ViewGroup musicBar;
 
     @Override
@@ -140,11 +150,27 @@ public class FirstFragment extends Fragment {
         Log.d("std", "oncreateView in fragment 1");
 
         View view = inflater.inflate(R.layout.activity_viewpger_firstfragment, container, false);
+        listView = (ListView) view.findViewById(R.id.fragment_first_list);
 
 
 
+        musicInterface = MusicAPI.getAPI();
+        musicInterface.getMusicList(new Callback<MusicApiResponseClass>() {
+            @Override
+            public void success(MusicApiResponseClass musicApiResponseClass, Response response) {
+                collection.addAll(musicApiResponseClass.getResults().getCollection1());
+                musicAdapter = new MusicAdapter(getActivity(),collection);
+                listView.setAdapter(musicAdapter);
 
-        ListView listView = (ListView) view.findViewById(R.id.fragment_first_list);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+
 
 
 
@@ -187,8 +213,6 @@ public class FirstFragment extends Fragment {
 
         });
 
-        musicAdapter = new MusicAdapter(getActivity(),musicList);
-        listView.setAdapter(musicAdapter);
 
 
         return view;
