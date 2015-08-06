@@ -59,6 +59,7 @@ public class MusicService extends Service {
            playSong();
 
         }
+        //if required
         if(method.equals(KEY_PLAY)){
             playSong();
         }
