@@ -34,7 +34,8 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'com.google.android.gms:play-services:7.5.0'
     compile 'com.android.support:design:22.2.0'
-
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.google.code.gson:gson:2.3'
     compile files('libs/FlurryAnalytics-5.6.0.jar')
 }
 
