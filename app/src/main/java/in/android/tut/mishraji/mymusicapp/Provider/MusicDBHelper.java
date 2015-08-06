@@ -1,5 +1,6 @@
 package in.android.tut.mishraji.mymusicapp.Provider;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
@@ -40,6 +41,25 @@ public class MusicDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
        db.execSQL(CREATE_QUERY);
+
+        ContentValues cv = new ContentValues();
+        cv.put(MUSIC_COLOUMN.ARTIST_NAME,"dummyName");
+        cv.put(MUSIC_COLOUMN.FILE,"chaccaron");
+        cv.put(MUSIC_COLOUMN.ALBUM_URL,"http://i.imgur.com/Qp1vKMJ.jpg");
+        cv.put(MUSIC_COLOUMN.SONG,"dummy Song");
+
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+        db.insert(TABLE.MUSIC,null,cv);
+
 
     }
 

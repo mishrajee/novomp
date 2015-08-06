@@ -59,6 +59,8 @@ public class FirstFragment extends Fragment {
     private TextView musicBarSongName;
     private Boolean isPLaying;
     private List<Collection1> collection = new ArrayList<>();
+    private MusicCursorAdapter musicCursorAdapter;
+    Cursor cursor;
 
     ListView listView;
     MusicAPI.MusicInterface musicInterface;
@@ -122,17 +124,12 @@ public class FirstFragment extends Fragment {
 
 
         musicDBHelper = new MusicDBHelper(getActivity());
-        db = musicDBHelper.getWritableDatabase();
+        db = musicDBHelper.getReadableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(MusicDBHelper.MUSIC_COLOUMN.ALBUM_URL,"http://i.imgur.com/Qp1vKMJ.jpg");
-        cv.put(MusicDBHelper.MUSIC_COLOUMN.ARTIST_NAME,"abhijeet");
-        cv.put(MusicDBHelper.MUSIC_COLOUMN.SONG,"badshah");
-        cv.put(MusicDBHelper.MUSIC_COLOUMN.FILE,"badshah");
 
-        db.insert(MusicDBHelper.TABLE.MUSIC,null,cv);
 
-        Cursor cursor = db.rawQuery("select * from "+MusicDBHelper.TABLE.MUSIC,null);
+        cursor = db.rawQuery("select * from "+MusicDBHelper.TABLE.MUSIC,null);
         if(cursor.moveToFirst()){
             do{
                 Log.d("db","Value from db is "+cursor.getString(0));
@@ -152,8 +149,10 @@ public class FirstFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_viewpger_firstfragment, container, false);
         listView = (ListView) view.findViewById(R.id.fragment_first_list);
 
+        musicCursorAdapter = new MusicCursorAdapter(getActivity(),cursor);
+        listView.setAdapter(musicCursorAdapter);
 
-
+/*
         musicInterface = MusicAPI.getAPI();
         musicInterface.getMusicList(new Callback<MusicApiResponseClass>() {
             @Override
@@ -169,7 +168,7 @@ public class FirstFragment extends Fragment {
 
             }
         });
-
+*/
 
 
 
