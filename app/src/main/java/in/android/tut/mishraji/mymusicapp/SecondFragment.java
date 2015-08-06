@@ -16,13 +16,20 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import java.security.cert.CollectionCertStoreParameters;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import in.android.tut.mishraji.mymusicapp.Events.MusicStatus;
+import in.android.tut.mishraji.mymusicapp.Model.Collection1;
 import in.android.tut.mishraji.mymusicapp.Model.Music;
+import in.android.tut.mishraji.mymusicapp.Model.MusicApiResponseClass;
+import in.android.tut.mishraji.mymusicapp.Networking.MusicAPI;
 import in.android.tut.mishraji.mymusicapp.services.MusicService;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by abhinava on 4/8/15.
@@ -38,7 +45,8 @@ public class SecondFragment extends Fragment {
 
     ViewGroup musicBar;
 
-
+    MusicAPI.MusicInterface musicInterface;
+    private List<Collection1> collection = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,8 +109,27 @@ public class SecondFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_viewpager_secondfragment,container,false);
 
         gridView = (GridView) view.findViewById(R.id.fragment_second_grid);
-        musicAdapter = new GridMusicAdapter(getActivity(),musicList);
-        gridView.setAdapter(musicAdapter);
+
+        musicInterface = MusicAPI.getAPI();
+        musicInterface.getMusicList(new Callback<MusicApiResponseClass>() {
+            @Override
+            public void success(MusicApiResponseClass musicApiResponseClass, Response response) {
+
+                collection.addAll(musicApiResponseClass.getResults().getCollection1());
+                musicAdapter = new GridMusicAdapter(getActivity(),collection);
+                gridView.setAdapter(musicAdapter);
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+
+
+
+
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

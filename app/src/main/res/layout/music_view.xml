@@ -24,13 +24,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/musicview_songName"
-            android:textSize="30dp"
+            android:textSize="20dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/musicview_artistName"
-            android:textSize="20dp"
+            android:textSize="15dp"
             >
 
             </TextView>

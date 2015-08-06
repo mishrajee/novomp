@@ -13,6 +13,7 @@ import com.squareup.picasso.Picasso;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import in.android.tut.mishraji.mymusicapp.Model.Collection1;
 import in.android.tut.mishraji.mymusicapp.Model.Music;
 
 /**
@@ -23,6 +24,7 @@ public class GridMusicAdapter extends BaseAdapter {
     WeakReference<Context> context;
 
     private List<Music> musicList;
+    private List<Collection1> collection;
 
     private class ViewHolder {
         TextView songTextView;
@@ -31,21 +33,21 @@ public class GridMusicAdapter extends BaseAdapter {
 
     }
 
-    public GridMusicAdapter(Context context, List<Music> musicList) {
+    public GridMusicAdapter(Context context, List<Collection1> collection) {
         this.context = new WeakReference<Context> (context);
-        this.musicList = musicList;
+        this.collection=collection;
     }
 
 
 
     @Override
     public int getCount() {
-        return musicList.size();
+        return collection.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return musicList.get(position);
+        return collection.get(position);
     }
 
     @Override
@@ -79,16 +81,18 @@ public class GridMusicAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        Music music = (Music)getItem(position);
+        //Music music = (Music)getItem(position);
+        Collection1 musicCollection = (Collection1)getItem(position);
+
 
         Picasso
                 .with(context.get())
-                .load(music.getAlbumName())
+                .load(musicCollection.getAlbumImage().getSrc())
                 .error(R.drawable.ic_launcher)
                 .into(viewHolder.albumImageView);
 
-        viewHolder.artistTextView.setText(music.getArtistName());
-        viewHolder.songTextView.setText(music.getSongName());
+        viewHolder.artistTextView.setText(musicCollection.getArtistName().getText());
+        viewHolder.songTextView.setText(musicCollection.getSongName().getText());
 
 
 
